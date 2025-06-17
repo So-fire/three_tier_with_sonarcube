@@ -73,7 +73,6 @@ app.get('/health',(req,res)=>{
 
 // ADD TRANSACTION
 app.post('/transaction', (req,res)=>{
-    // var response = "";  //treat vulnerability detected by sonarcube
     try{
         console.log(req.body);
         console.log(req.body.amount);
