@@ -48,14 +48,31 @@ function deleteAllTransactions(callback){
     }) 
 }
 
-function deleteTransactionById(id, callback){
-    var mysql = `DELETE FROM transactions WHERE id = ${id}`;
-    con.query(mysql, function(err,result){
-        if (err) throw err;
-        console.log(`Deleting transactions with id ${id}`);
-        return(callback(result));
-    }) 
+////=============================================================================================================
+//  code block was commented out due to vulnerability to mysql injection attack, corrected block code is below
+///==============================================================================================================
+// function deleteTransactionById(id, callback){
+//     var mysql = `DELETE FROM transactions WHERE id = ${id}`;
+//     con.query(mysql, function(err,result){
+//         if (err) throw err;
+//         console.log(`Deleting transactions with id ${id}`);
+//         return(callback(result));
+//     }) 
+// }
+
+////=============================================================================================================
+//  corrected code block to protect against vulnerability to mysql injection attack
+///===================================================================================================================
+
+function deleteTransactionById(id, callback) {
+    const sql = "DELETE FROM transactions WHERE id = ?";
+    con.query(sql, [id], function(err, result) {
+        if (err) return callback(err);  // Don't throw in async code
+        console.log(`Deleted transaction with id ${id}`);
+        return callback(null, result);
+    });
 }
+
 
 
 module.exports = {addTransaction ,getAllTransactions, deleteAllTransactions, deleteAllTransactions, findTransactionById, deleteTransactionById};
