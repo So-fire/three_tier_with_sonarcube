@@ -12,7 +12,7 @@ function addTransaction(amount,desc){
     const sql = "INSERT INTO `transactions` (`amount`, `description`) VALUES (?, ?)";
 
     // var mysql = `INSERT INTO \`transactions\` (\`amount\`, \`description\`) VALUES ('${amount}','${desc}')`;    #block wit vulnerability spotted by sonarcube
-    con.query(mysql, function(err,result){
+    con.query(sql, function(err,result){
         if (err) throw err;
         console.log("Adding to the table should have worked");
     }) 
