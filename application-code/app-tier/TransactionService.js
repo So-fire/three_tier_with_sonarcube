@@ -9,7 +9,7 @@ const con = mysql.createConnection({
 });
 
 function addTransaction(amount,desc){
-    var sql = "INSERT INTO `transactions` (`amount`, `description`) VALUES (?, ?)";
+    const sql = "INSERT INTO `transactions` (`amount`, `description`) VALUES (?, ?)";
 
     // var mysql = `INSERT INTO \`transactions\` (\`amount\`, \`description\`) VALUES ('${amount}','${desc}')`;    #block wit vulnerability spotted by sonarcube
     con.query(mysql, function(err,result){
