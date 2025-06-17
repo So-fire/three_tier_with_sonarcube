@@ -20,8 +20,8 @@ function addTransaction(amount,desc){
 }
 
 function getAllTransactions(callback){
-    var mysql = "SELECT * FROM transactions";
-    con.query(mysql, function(err,result){
+    const sql = "SELECT * FROM transactions";
+    con.query(sql, function(err,result){
         if (err) throw err;
         console.log("Getting all transactions...");
         return(callback(result));
@@ -40,8 +40,8 @@ function findTransactionById(id,callback){
 }
 
 function deleteAllTransactions(callback){
-    var mysql = "DELETE FROM transactions";
-    con.query(mysql, function(err,result){
+    const sql = "DELETE FROM transactions";
+    con.query(sql, function(err,result){
         if (err) throw err;
         console.log("Deleting all transactions...");
         return(callback(result));
