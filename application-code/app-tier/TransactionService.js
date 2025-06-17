@@ -29,7 +29,7 @@ function getAllTransactions(callback){
 }
 
 function findTransactionById(id,callback){
-       var sql = "SELECT * FROM transactions WHERE id = ?";
+       const sql = "SELECT * FROM transactions WHERE id = ?";
        con.query(sql, [id], function(err, result) {
     // var mysql = `SELECT * FROM transactions WHERE id = ${id}`;   #block wit vulnerability spotted by sonarcube
     // con.query(mysql, function(err,result){                       #block wit vulnerability spotted by sonarcube
