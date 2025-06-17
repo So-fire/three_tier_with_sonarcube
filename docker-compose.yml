@@ -1,0 +1,41 @@
+#version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PWD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER} 
+      MYSQL_PASSWORD: ${DB_PWD}
+    ports:
+      - "3307:3306"
+
+
+  app-tier:
+    build: 
+      context: ./application-code/app-tier
+      dockerfile: Dockerfile
+    container_name: app-tier
+    ports:
+      - "4000:4000"
+    environment:    #Passes environment variables to backend app  to connect to the DB.
+      DB_HOST: ${DB_HOST}
+      DB_USER:  ${DB_USER}
+      DB_PWD:  ${DB_PWD}
+      DB_DATABASE:  ${DB_DATABASE}
+    
+    depends_on:
+          - db
+
+  web:
+    build: 
+      context: ./application-code/web-tier
+      dockerfile: Dockerfile
+    container_name: web-tier
+    ports:
+      - "3000:80"
+    
+    depends_on:
+       - app-tier
