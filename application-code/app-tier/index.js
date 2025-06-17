@@ -73,13 +73,13 @@ app.get('/health',(req,res)=>{
 
 // ADD TRANSACTION
 app.post('/transaction', (req,res)=>{
-    var response = "";
+    // var response = "";  //treat vulnerability detected by sonarcube
     try{
         console.log(req.body);
         console.log(req.body.amount);
         console.log(req.body.desc);
-        var success = transactionService.addTransaction(req.body.amount,req.body.desc);
-        if (success = 200) res.json({ message: 'added transaction successfully'});
+        const success = transactionService.addTransaction(req.body.amount,req.body.desc);
+        if (success === 200) res.json({ message: 'added transaction successfully'});
     }catch (err){
         res.json({ message: 'something went wrong', error : err.message});
     }
@@ -88,7 +88,7 @@ app.post('/transaction', (req,res)=>{
 // GET ALL TRANSACTIONS
 app.get('/transaction',(req,res)=>{
     try{
-        var transactionList = [];
+        const transactionList = [];
        transactionService.getAllTransactions(function (results) {
             console.log("we are in the call back:");
             for (const row of results) {
@@ -164,9 +164,9 @@ app.get('/transaction/id',(req,res)=>{
     try{
         transactionService.findTransactionById(req.body.id,function(result){
             res.statusCode = 200;
-            var id = result[0].id;
-            var amt = result[0].amount;
-            var desc= result[0].desc;
+            const id = result[0].id;
+            const amt = result[0].amount;
+            const desc= result[0].desc;
             res.json({"id":id,"amount":amt,"desc":desc});
         });
 
