@@ -114,19 +114,49 @@ app.delete('/transaction',(req,res)=>{
         res.json({message: "Deleting all transactions may have failed.", error:err.message});
     }
 });
+////=============================================================================================================
+//  code block was commented out due to vulnerability to mysql injection attack, corrected block code is below
+///===================================================================================================================
+// //DELETE ONE TRANSACTION
+// // app.delete('/transaction/id', (req,res)=>{    #block detected for risk of vulnerability by sonarcube 
+//     app.delete('/transaction/:id', (req,res)=>{
+//     try{
+//         //probably need to do some kind of parameter checking
+//         transactionService.deleteTransactionById(req.body.id, function(result){
+//             res.statusCode = 200;
+//             res.json({message: `transaction with id ${req.body.id} seemingly deleted`});
+//         })
+//     } catch (err){
+//         res.json({message:"error deleting transaction", error: err.message});
+//     }
+// });
 
-//DELETE ONE TRANSACTION
-app.delete('/transaction/id', (req,res)=>{
-    try{
-        //probably need to do some kind of parameter checking
-        transactionService.deleteTransactionById(req.body.id, function(result){
-            res.statusCode = 200;
-            res.json({message: `transaction with id ${req.body.id} seemingly deleted`});
-        })
-    } catch (err){
-        res.json({message:"error deleting transaction", error: err.message});
+////=============================================================================================================
+//  corrected code block to protect against vulnerability to mysql injection attack
+///===================================================================================================================
+
+// DELETE ONE TRANSACTION (safe & clean)
+app.delete('/transaction/:id', (req, res) => {
+    const id = req.params.id;
+
+    // ✅ Validate input
+    if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid ID" });
+    }
+
+    try {
+        transactionService.deleteTransactionById(id, function (err, result) {
+            if (err) {
+                return res.status(500).json({ message: "Error deleting transaction", error: err.message });
+            }
+            res.status(200).json({ message: `Transaction with id ${id} deleted successfully.` });
+        });
+    } catch (err) {
+        res.status(500).json({ message: "Unexpected error", error: err.message });
     }
 });
+
+
 
 //GET SINGLE TRANSACTION
 app.get('/transaction/id',(req,res)=>{
