@@ -14,6 +14,7 @@ services:
 
 
   app-tier:
+    image: sophizo/app-tier:latest   # ✅ Explicitly define image
     build: 
       context: ./application-code/app-tier
       dockerfile: Dockerfile
@@ -30,10 +31,10 @@ services:
           - db
 
   web:
+    image: sophizo/web-tier:latest   # ✅ Explicitly define image
     build: 
       context: ./application-code/web-tier
       dockerfile: Dockerfile
-    image: $DOCKERHUB_USERNAME/web-tier:latest
 
     container_name: web-tier
     ports:
