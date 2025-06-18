@@ -1,6 +1,6 @@
 ## 🚀 Tierhub – 3-Tier Application (Local Deployment Guide)
 
-## 🧩 Project Overview
+## 🧩 Project Overview.
 This project demonstrates how to run a 3-tier web application locally using Docker Compose and manual setup. The application consists of:
 
 Web Tier: React frontend running on port 3000
