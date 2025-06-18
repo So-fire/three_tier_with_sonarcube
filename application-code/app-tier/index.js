@@ -174,6 +174,6 @@ app.get('/transaction/id',(req,res)=>{
     }
 });
 
-  app.listen(port, () => {
+  app.listen(port, '0.0.0.0',() => {
     console.log(`AB3 backend app listening at http://localhost:${port}`)
   })
