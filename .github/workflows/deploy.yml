@@ -38,8 +38,30 @@ jobs:
         run: docker compose build && docker compose push
 
       
-      # - name: Build Docker Image
-      #   run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/fintech-app:latest .
+  deploy_to_ec2:
+    needs: build_push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # - name: Push Docker Image
-      #   run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/fintech-app:latest
+      - name: Copy project files to EC2 (via SCP)
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "./docker-compose.yml,./.env,./application-code"
+          target: "/home/ubuntu/fintech-app"
+
+      - name: Deploy app on EC2 (via SSH)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/fintech-app
+            docker compose pull
+            docker compose down
+            docker compose up -d --remove-orphans
