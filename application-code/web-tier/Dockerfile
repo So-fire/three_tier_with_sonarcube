@@ -1,7 +1,7 @@
 # Use nginx to serve the static site
 FROM node:18-alpine AS build
 
-# Set working directory
+# Set working directory.
 WORKDIR /app
 
 
