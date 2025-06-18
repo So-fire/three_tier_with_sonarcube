@@ -79,6 +79,10 @@ jobs:
               echo "Docker already installed."
             fi
 
+            # Grant Docker permissions and reload shell
+            sudo usermod -aG docker ubuntu
+            sudo chown $USER /var/run/docker.sock
+
             # Navigate to app folder and run the containers
             cd /home/ubuntu/fintech-app
             docker compose pull
