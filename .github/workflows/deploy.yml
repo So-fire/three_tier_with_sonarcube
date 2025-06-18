@@ -15,8 +15,8 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@master
         with:
           args: >
-            -Dsonar.projectKey=my-fintech-app
-            -Dsonar.organization=my-org
+            -Dsonar.projectKey=So-fire_three_tier_with_sonarcube
+            -Dsonar.organization=so-fire
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
