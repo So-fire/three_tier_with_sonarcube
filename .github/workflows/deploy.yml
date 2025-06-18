@@ -17,7 +17,6 @@ jobs:
           args: >
             -Dsonar.projectKey=my-fintech-app
             -Dsonar.organization=my-org
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
