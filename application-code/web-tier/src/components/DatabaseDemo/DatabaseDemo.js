@@ -21,7 +21,7 @@
           }
 
         populateData(){
-            this.fetch_retry('/api/transaction',3)
+            this.fetch_retry('http://app-tier:4000/api/transaction',3)
             .then(res => res.json())
             .then((data) => {
               this.setState({ transactions : data.result });
@@ -59,7 +59,7 @@
            const requestOptions = {
                method: 'DELETE'
            }
-           fetch('/api/transaction', requestOptions)
+           fetch('http://app-tier/api/transaction', requestOptions)
            .then(response => response.json())
            .then(data => this.populateData())
 
@@ -76,7 +76,7 @@
                 body: JSON.stringify({"amount":this.state.text_amt, "desc" :this.state.text_desc})
             }
             
-            fetch('/api/transaction', requestOptions)
+            fetch('http:app-tier//api/transaction', requestOptions)
             .then(response => response.json())
             .then(data => this.populateData())
             
