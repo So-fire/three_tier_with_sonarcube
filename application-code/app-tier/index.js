@@ -72,17 +72,23 @@ app.get('/health',(req,res)=>{
 });
 
 // ADD TRANSACTION
-app.post('/transaction', (req,res)=>{
-    try{
-        console.log(req.body);
-        console.log(req.body.amount);
-        console.log(req.body.desc);
-        const success = transactionService.addTransaction(req.body.amount,req.body.desc);
-        if (success === 200) res.json({ message: 'added transaction successfully'});
-    }catch (err){
-        res.json({ message: 'something went wrong', error : err.message});
+app.post('/transaction', (req, res) => {
+    const { amount, desc } = req.body;
+
+    // ✅ Input validation
+    if (!amount || !desc) {
+        return res.status(400).json({ message: 'Amount and description are required.' });
     }
+
+    transactionService.addTransaction(amount, desc, (err, result) => {
+        if (err) {
+            return res.status(500).json({ message: 'Error adding transaction', error: err.message });
+        }
+
+        res.status(200).json({ message: 'Transaction added successfully', transactionId: result.insertId });
+    });
 });
+
 
 // GET ALL TRANSACTIONS
 app.get('/transaction',(req,res)=>{
